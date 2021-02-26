@@ -44,7 +44,15 @@ def main():
     dataList.append(encode('Content-Type: {}'.format('text/plain')))
     dataList.append(encode(''))
 
-    dataList.append(encode("test"))
+    conn.request("POST","https://swordslegends.com/swords/libs/securimage/securimage_show.html")
+    res = conn.getresponse()
+    data = res.read()
+    file = open("tmp.png", "wb")
+    file.write(data)
+    file.close()
+    captcha_code = captcha_api.predict('tmp.png')
+
+    dataList.append(encode(captcha_code))
     dataList.append(encode('--' + boundary))
     dataList.append(encode('Content-Disposition: form-data; name=register;'))
 
@@ -61,38 +69,10 @@ def main():
         'Content-type': 'multipart/form-data; boundary={}'.format(boundary)
     }
 
-    conn.request("POST","https://swordslegends.com/swords/libs/securimage/securimage_show.html")
-
+    conn.request("POST", "/swords/register.html", payload, headers)
     res = conn.getresponse()
     data = res.read()
-    file = open("tmp.png", "wb")
-    file.write(data)
-    file.close()
-
-    conn.request("POST", "/swords/register.html", payload, headers)
-
-
-    # captcha_code_url = 'https://swordslegends.com/swords/libs/securimage/securimage_show.php'
-    # urllib.request.urlretrieve(captcha_code_url, 'tmp.png')
-    captcha_code = captcha_api.predict('tmp.png')
-
-    # url = "https://swordslegends.com/swords/register.html"
-
-    # payload={'username': 'hacker173',
-    #     'email': 'hacker173@test.com',
-    #     'password': 'hacker173',
-    #     'password_again': 'hacker173',
-    #     'captcha_code': captcha_code,
-    #     'register': 'Register'
-    # }
-    # files=[]
-    # headers = {
-    #   'Cookie': 'PHPSESSID=8528f6269c7c459d5cf9c837010ed440'
-    # }
-
-    # response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-    # print(response.text)
+    print(data.decode("utf-8"))
 
     print(captcha_code)
 
