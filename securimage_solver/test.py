@@ -1,7 +1,9 @@
 import captcha_api
 import urllib.request
 import os.path
-import requests
+import http.client
+import mimetypes
+from codecs import encode
 
 def main():
 
