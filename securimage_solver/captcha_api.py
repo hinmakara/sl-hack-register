@@ -7,7 +7,6 @@ import os.path
 from datetime import datetime
 from PIL import Image
 import numpy as np
-import urllib.request
 
 import tensorflow as tf
 from tensorflow.python.platform import gfile
@@ -31,9 +30,6 @@ def one_hot_to_texts(recog_result):
         index = recog_result[i]
         texts.append(''.join([CHAR_SETS[i] for i in index]))
     return texts
-
-url = 'https://swordslegends.com/swords/libs/securimage/securimage_show.php'
-urllib.request.urlretrieve(url, 'tmp.png')
 
 def input_data(image_file):
     images = np.zeros([1, IMAGE_HEIGHT*IMAGE_WIDTH], dtype='float32')
@@ -64,9 +60,4 @@ def predict(image_file):
         text = one_hot_to_texts(recog_result)
         return text[0]
 
-def main():
-    path = sys.argv[1]
-    print(predict(path))
 
-if __name__ == '__main__':
-    main()
