@@ -15,11 +15,17 @@ def main():
 
     response = requests.request(
         "GET",
-        "https://swordslegends.com/swords/libs/securimage/securimage_show.php",
+        "https://swordslegends.com/swords/libs/securimage/securimage_show.php" ,
          headers = { 'cookie': cookie },
          data = {},
          files = []
     )
+
+    file = open("tmp.png", "wb")
+    file.write(response.content)
+    file.close()
+
+    captcha_code = captcha_api.predict('tmp.png')
 
     response = requests.request(
         "POST",
@@ -30,7 +36,7 @@ def main():
     )
 
     print(response.text)
-    # print(captcha_code)
+    print(captcha_code)
 
 if __name__ == '__main__':
     main()
