@@ -14,21 +14,20 @@ def main():
     register = 'Register'
 
     response = requests.request(
+        "GET",
+        "https://swordslegends.com/swords/libs/securimage/securimage_show.php",
+         headers = { 'cookie': cookie },
+         data = {},
+         files = []
+    )
+
+    response = requests.request(
         "POST",
         "https://swordslegends.com/swords/register.html",
-         headers = {
-             'cookie': cookie
-         },
-         data = {
-            'username': username,
-            'email': email,
-            'password': password,
-            'password_again': password_again,
-            'captcha_code': captcha_code,
-            'register': register
-         },
-         files = [
-         ])
+         headers = { 'cookie': cookie },
+         data = { 'username': username, 'email': email, 'password': password, 'password_again': password_again, 'captcha_code': captcha_code, 'register': register },
+         files = []
+    )
 
     print(response.text)
     # print(captcha_code)
